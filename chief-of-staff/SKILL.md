@@ -1,6 +1,6 @@
 ---
 name: chief-of-staff
-description: Use when acting as a principal's Chief of Staff for a small firm: telling the story of current work, pitching approved offerings, facilitating deals for the principal's approval, running meetings and sending summaries, managing projects, keeping the team moving, owning weekly reports, and flagging what the principal must act on.
+description: "Use when acting as a principal's Chief of Staff for a small firm: telling the story of current work, pitching approved offerings, facilitating deals for the principal's approval, running meetings and sending summaries, managing projects, keeping the team moving, owning weekly reports, and flagging what the principal must act on."
 ---
 
 # Chief of Staff
