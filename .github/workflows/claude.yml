@@ -1,0 +1,40 @@
+name: Claude Review
+
+# Claude review. A PR comment that starts with "@claude" from the repo owner
+# or a collaborator starts a Claude run, and Claude answers on the PR as
+# claude[bot]. Advisory only: it never approves, requests changes or merges.
+# Needs the CLAUDE_CODE_OAUTH_TOKEN repo secret and the Claude GitHub App on
+# this repo. issue_comment workflows run from the default branch, so this
+# works only after it is merged to main.
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude:
+    if: |
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '@claude') &&
+      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          additional_permissions: |
+            actions: read
